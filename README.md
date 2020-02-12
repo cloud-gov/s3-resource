@@ -228,11 +228,16 @@ environment is consistent across any `docker` enabled platform. When the docker
 image builds, the test are run inside the docker container, on failure they
 will stop the build.
 
-Run the tests with the following command:
+Run the tests with the following commands for both `alpine` and `ubuntu` images:
 
 ```sh
+<<<<<<< HEAD
 docker build -t s3-resource --target tests --build-arg base_image=paketobuildpacks/run-jammy-base:latest .
  .
+=======
+docker build -t s3-resource -f dockerfiles/alpine/Dockerfile .
+docker build -t s3-resource -f dockerfiles/ubuntu/Dockerfile .
+>>>>>>> 01d768b (Catchup (#3))
 ```
 
 #### Integration tests
@@ -244,7 +249,19 @@ integration will run.
 Run the tests with the following command:
 
 ```sh
+<<<<<<< HEAD
 docker build . -t s3-resource --target tests \
+=======
+docker build . -t s3-resource -f dockerfiles/alpine/Dockerfile \
+  --build-arg S3_TESTING_ACCESS_KEY_ID="access-key" \
+  --build-arg S3_TESTING_SECRET_ACCESS_KEY="some-secret" \
+  --build-arg S3_TESTING_BUCKET="bucket-non-versioned" \
+  --build-arg S3_VERSIONED_TESTING_BUCKET="bucket-versioned" \
+  --build-arg S3_TESTING_REGION="us-east-1" \
+  --build-arg S3_ENDPOINT="https://s3.amazonaws.com"
+
+docker build . -t s3-resource -f dockerfiles/ubuntu/Dockerfile \
+>>>>>>> 01d768b (Catchup (#3))
   --build-arg S3_TESTING_ACCESS_KEY_ID="access-key" \
   --build-arg S3_TESTING_SECRET_ACCESS_KEY="some-secret" \
   --build-arg S3_TESTING_BUCKET="bucket-non-versioned" \
