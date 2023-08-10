@@ -22,6 +22,7 @@ func TestIntegration(t *testing.T) {
 	RegisterFailHandler(Fail)
 }
 
+var useInstanceProfile = os.Getenv("S3_USE_INSTANCE_PROFILE")
 var accessKeyID = os.Getenv("S3_TESTING_ACCESS_KEY_ID")
 var secretAccessKey = os.Getenv("S3_TESTING_SECRET_ACCESS_KEY")
 var sessionToken = os.Getenv("S3_TESTING_SESSION_TOKEN")
@@ -112,6 +113,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	inPath = sd.InPath
 	outPath = sd.OutPath
 
+<<<<<<< HEAD
 	if accessKeyID != "" {
 		Ω(accessKeyID).ShouldNot(BeEmpty(), "must specify $S3_TESTING_ACCESS_KEY_ID")
 		Ω(secretAccessKey).ShouldNot(BeEmpty(), "must specify $S3_TESTING_SECRET_ACCESS_KEY")
@@ -142,7 +144,28 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 		s3Service = s3.New(session.New(awsConfig), awsConfig, &additionalAwsConfig)
 		s3client = s3resource.NewS3Client(ioutil.Discard, awsConfig, v2signing == "true", awsRoleARN)
+=======
+	if useInstanceProfile == "" {
+		Ω(accessKeyID).ShouldNot(BeEmpty(),
+			"must specify $S3_TESTING_ACCESS_KEY_ID or $S3_USE_INSTANCE_PROFILE=true")
+		Ω(secretAccessKey).ShouldNot(BeEmpty(),
+			"must specify $S3_TESTING_SECRET_ACCESS_KEY or $S3_USE_INSTANCE_PROFILE=true")
+>>>>>>> ceb2f9e (Retrieve credentials from instance profile)
 	}
+	Ω(versionedBucketName).ShouldNot(BeEmpty(), "must specify $S3_VERSIONED_TESTING_BUCKET")
+	Ω(bucketName).ShouldNot(BeEmpty(), "must specify $S3_TESTING_BUCKET")
+	Ω(regionName).ShouldNot(BeEmpty(), "must specify $S3_TESTING_REGION")
+
+	awsConfig := s3resource.NewAwsConfig(
+		accessKeyID,
+		secretAccessKey,
+		regionName,
+		endpoint,
+		false,
+	)
+
+	s3Service = s3.New(session.New(awsConfig), awsConfig)
+	s3client = s3resource.NewS3Client(ioutil.Discard, awsConfig, v2signing == "true")
 })
 
 var _ = BeforeEach(func() {
