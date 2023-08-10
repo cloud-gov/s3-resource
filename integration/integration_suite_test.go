@@ -113,15 +113,6 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	inPath = sd.InPath
 	outPath = sd.OutPath
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-	if accessKeyID != "" {
-		Ω(accessKeyID).ShouldNot(BeEmpty(), "must specify $S3_TESTING_ACCESS_KEY_ID")
-		Ω(secretAccessKey).ShouldNot(BeEmpty(), "must specify $S3_TESTING_SECRET_ACCESS_KEY")
-=======
->>>>>>> concourse-master
 	if useInstanceProfile != "" || accessKeyID != "" || secretAccessKey != "" {
 		if useInstanceProfile == "" {
 			Ω(accessKeyID).ShouldNot(BeEmpty(),
@@ -129,17 +120,12 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 			Ω(secretAccessKey).ShouldNot(BeEmpty(),
 				"must specify $S3_TESTING_SECRET_ACCESS_KEY or $S3_USE_INSTANCE_PROFILE=true")
 		}
-<<<<<<< HEAD
-=======
->>>>>>> 746ef50 (Fix up unit tests and Dockerfile)
->>>>>>> concourse-master
 		Ω(versionedBucketName).ShouldNot(BeEmpty(), "must specify $S3_VERSIONED_TESTING_BUCKET")
 		Ω(bucketName).ShouldNot(BeEmpty(), "must specify $S3_TESTING_BUCKET")
 		Ω(regionName).ShouldNot(BeEmpty(), "must specify $S3_TESTING_REGION")
 		Ω(endpoint).ShouldNot(BeEmpty(), "must specify $S3_ENDPOINT")
 
 		awsConfig = s3resource.NewAwsConfig(
-<<<<<<< HEAD
 		       accessKeyID,
 		       secretAccessKey,
 		       sessionToken,
@@ -149,50 +135,8 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		       false,
 		)
 
-=======
-<<<<<<< HEAD
-			accessKeyID,
-			secretAccessKey,
-			sessionToken,
-			regionName,
-			endpoint,
-			false,
-			false,
-		)
-
-		additionalAwsConfig := aws.Config{}
-		if len(awsRoleARN) != 0 {
-			stsConfig := awsConfig.Copy()
-			stsConfig.Endpoint = nil
-			stsSession := session.Must(session.NewSession(stsConfig))
-			roleCredentials := stscreds.NewCredentials(stsSession, awsRoleARN)
-
-			additionalAwsConfig.Credentials = roleCredentials
-		}
-
-		s3Service = s3.New(session.New(awsConfig), awsConfig, &additionalAwsConfig)
-		s3client = s3resource.NewS3Client(ioutil.Discard, awsConfig, v2signing == "true", awsRoleARN)
-=======
-	if useInstanceProfile == "" {
-		Ω(accessKeyID).ShouldNot(BeEmpty(),
-			"must specify $S3_TESTING_ACCESS_KEY_ID or $S3_USE_INSTANCE_PROFILE=true")
-		Ω(secretAccessKey).ShouldNot(BeEmpty(),
-			"must specify $S3_TESTING_SECRET_ACCESS_KEY or $S3_USE_INSTANCE_PROFILE=true")
->>>>>>> ceb2f9e (Retrieve credentials from instance profile)
-=======
-		       accessKeyID,
-		       secretAccessKey,
-		       sessionToken,
-		       regionName,
-		       endpoint,
-		       false,
-		       false,
-		)
-
->>>>>>> concourse-master
 		s3Service = s3.New(session.New(awsConfig), awsConfig)
 		s3client = s3resource.NewS3Client(ioutil.Discard, awsConfig, v2signing == "true")
->>>>>>> 746ef50 (Fix up unit tests and Dockerfile)
 	}
 })
 
