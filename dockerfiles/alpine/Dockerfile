@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ARG base_image
 ARG builder_image=concourse/golang-builder
 
@@ -5,8 +6,13 @@ FROM ${builder_image} as builder
 COPY . /go/src/github.com/concourse/s3-resource
 <<<<<<< HEAD
 =======
+=======
+FROM concourse/golang-builder as builder
+COPY . /go/src/github.com/concourse/s3-resource
+WORKDIR /go/src/github.com/concourse/s3-resource
+>>>>>>> ad6dcd4 (match upstream route to update to 1.16 instead of our own)
 ENV CGO_ENABLED 0
-ENV GO111MODULE auto
+RUN go mod download
 RUN go build -o /assets/in github.com/concourse/s3-resource/cmd/in
 RUN go build -o /assets/out github.com/concourse/s3-resource/cmd/out
 RUN go build -o /assets/check github.com/concourse/s3-resource/cmd/check
