@@ -1,7 +1,7 @@
 ARG base_image
 ARG builder_image=concourse/golang-builder
 
-FROM ${builder_image} as builder
+FROM ${builder_image} AS builder
 COPY . /go/src/github.com/concourse/s3-resource
 WORKDIR /go/src/github.com/concourse/s3-resource
 ENV CGO_ENABLED=0
