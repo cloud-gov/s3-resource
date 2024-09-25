@@ -75,8 +75,11 @@ func NewS3Client(
 	awsConfig *aws.Config,
 	useV2Signing bool,
 	roleToAssume string,
-) S3Client {
-	sess := session.New(awsConfig)
+) (S3Client, error) {
+	sess, err := session.NewSession(awsConfig)
+	if err != nil {
+		return nil, err
+	}
 
 	assumedRoleAwsConfig := fetchCredentialsForRoleIfDefined(roleToAssume, awsConfig)
 
@@ -91,7 +94,7 @@ func NewS3Client(
 		session: sess,
 
 		progressOutput: progressOutput,
-	}
+	}, nil
 }
 
 func fetchCredentialsForRoleIfDefined(roleToAssume string, awsConfig *aws.Config) aws.Config {
