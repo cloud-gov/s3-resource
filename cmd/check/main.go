@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/concourse/s3-resource"
+	s3resource "github.com/concourse/s3-resource"
 	"github.com/concourse/s3-resource/check"
 )
 
@@ -22,12 +22,15 @@ func main() {
 		request.Source.SkipSSLVerification,
 	)
 
-	client := s3resource.NewS3Client(
+	client, err := s3resource.NewS3Client(
 		os.Stderr,
 		awsConfig,
 		request.Source.UseV2Signing,
 		request.Source.AwsRoleARN,
 	)
+	if err != nil {
+		s3resource.Fatal("creating client", err)
+	}
 
 	command := check.NewCommand(client)
 	response, err := command.Run(request)

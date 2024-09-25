@@ -2,7 +2,7 @@ package integration_test
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
@@ -65,8 +65,8 @@ func getSessionTokenS3Client(awsConfig *aws.Config) (*s3.S3, s3resource.S3Client
 		MaxRetries:  awsConfig.MaxRetries,
 		HTTPClient:  awsConfig.HTTPClient,
 	}
-
-	svc := sts.New(session.New(stsAwsConfig), stsAwsConfig)
+	stsSession, _ := session.NewSession(stsAwsConfig)
+	svc := sts.New(stsSession, stsAwsConfig)
 
 	duration := int64(900)
 	params := &sts.GetSessionTokenInput{
@@ -85,8 +85,9 @@ func getSessionTokenS3Client(awsConfig *aws.Config) (*s3.S3, s3resource.S3Client
 		false,
 		false,
 	)
-	s3Service := s3.New(session.New(newAwsConfig), newAwsConfig)
-	s3client := s3resource.NewS3Client(ioutil.Discard, newAwsConfig, v2signing == "true", awsRoleARN)
+	s3Session, _ := session.NewSession(newAwsConfig)
+	s3Service := s3.New(s3Session, newAwsConfig)
+	s3client, err := s3resource.NewS3Client(io.Discard, newAwsConfig, v2signing == "true", awsRoleARN)
 
 	return s3Service, s3client
 }
@@ -144,8 +145,9 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 			additionalAwsConfig.Credentials = roleCredentials
 		}
-		s3Service = s3.New(session.New(awsConfig), awsConfig)
-		s3client = s3resource.NewS3Client(ioutil.Discard, awsConfig, v2signing == "true", awsRoleARN)
+		s3Session, _ := session.NewSession(awsConfig)
+		s3Service = s3.New(s3Session, awsConfig)
+		s3client, _ = s3resource.NewS3Client(io.Discard, awsConfig, v2signing == "true", awsRoleARN)
 	}
 })
 

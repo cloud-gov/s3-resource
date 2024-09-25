@@ -1,11 +1,11 @@
 ARG base_image
 ARG builder_image=concourse/golang-builder
 
-FROM ${builder_image} as builder
+FROM ${builder_image} AS builder
 COPY . /go/src/github.com/concourse/s3-resource
 WORKDIR /go/src/github.com/concourse/s3-resource
-ENV CGO_ENABLED 0
-ENV AWS_USE_FIPS_ENDPOINT true
+ENV CGO_ENABLED=0
+ENV AWS_USE_FIPS_ENDPOINT=true
 RUN go mod download
 RUN go build -o /assets/in github.com/concourse/s3-resource/cmd/in
 RUN go build -o /assets/out github.com/concourse/s3-resource/cmd/out
@@ -26,7 +26,7 @@ RUN apt update \
   zip \
   && rm -rf /var/lib/apt/lists/*
 COPY --from=builder assets/ /opt/resource/
-ENV AWS_USE_FIPS_ENDPOINT true
+ENV AWS_USE_FIPS_ENDPOINT=true
 RUN chmod +x /opt/resource/*
 
 FROM resource AS tests
@@ -39,7 +39,7 @@ ARG S3_TESTING_BUCKET
 ARG S3_TESTING_REGION
 ARG S3_ENDPOINT
 ARG TEST_SESSION_TOKEN
-ENV AWS_USE_FIPS_ENDPOINT true
+ENV AWS_USE_FIPS_ENDPOINT=true
 COPY --from=builder /tests /go-tests
 WORKDIR /go-tests
 RUN set -e; for test in /go-tests/*.test; do \
@@ -47,4 +47,4 @@ RUN set -e; for test in /go-tests/*.test; do \
   done
 
 FROM resource
-ENV AWS_USE_FIPS_ENDPOINT true
+ENV AWS_USE_FIPS_ENDPOINT=true
