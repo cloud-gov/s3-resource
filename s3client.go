@@ -154,7 +154,7 @@ func NewAwsConfig(
 	awsConfig := &aws.Config{
 		Region:           aws.String(regionName),
 		Credentials:      creds,
-		S3ForcePathStyle: aws.Bool(true),
+		S3ForcePathStyle: aws.Bool(false),
 		MaxRetries:       aws.Int(maxRetries),
 		DisableSSL:       aws.Bool(disableSSL),
 		HTTPClient:       httpClient,
