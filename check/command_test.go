@@ -7,10 +7,10 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	s3resource "github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/fakes"
+	s3resource "github.com/cloud-gov/s3-resource"
+	"github.com/cloud-gov/s3-resource/fakes"
 
-	. "github.com/concourse/s3-resource/check"
+	. "github.com/cloud-gov/s3-resource/check"
 )
 
 var _ = Describe("Check Command", func() {

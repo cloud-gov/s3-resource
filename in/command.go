@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/versions"
+	s3resource "github.com/cloud-gov/s3-resource"
+	"github.com/cloud-gov/s3-resource/versions"
 )
 
 var ErrMissingPath = errors.New("missing path in request")

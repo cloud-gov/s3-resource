@@ -11,8 +11,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/check"
+	s3resource "github.com/cloud-gov/s3-resource"
+	"github.com/cloud-gov/s3-resource/check"
 	"github.com/onsi/gomega/gbytes"
 	"github.com/onsi/gomega/gexec"
 )
