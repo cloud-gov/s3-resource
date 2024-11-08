@@ -9,8 +9,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/versions"
+	s3resource "github.com/cloud-gov/s3-resource"
+	"github.com/cloud-gov/s3-resource/versions"
 	"github.com/fatih/color"
 )
 

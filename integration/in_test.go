@@ -9,8 +9,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/in"
+	s3resource "github.com/cloud-gov/s3-resource"
+	"github.com/cloud-gov/s3-resource/in"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 

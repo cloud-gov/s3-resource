@@ -3,8 +3,8 @@ package check
 import (
 	"errors"
 
-	"github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/versions"
+	s3resource "github.com/cloud-gov/s3-resource"
+	"github.com/cloud-gov/s3-resource/versions"
 )
 
 type Command struct {

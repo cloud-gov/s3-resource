@@ -1,6 +1,6 @@
 package check
 
-import "github.com/concourse/s3-resource"
+import s3resource "github.com/cloud-gov/s3-resource"
 
 type Request struct {
 	Source  s3resource.Source  `json:"source"`
